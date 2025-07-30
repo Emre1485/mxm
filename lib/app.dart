@@ -61,7 +61,7 @@ class MobileExams extends StatelessWidget {
                 case UserRole.teacher:
                   return const Scaffold(); // TeacherHomePage();
                 case UserRole.parent:
-                  return const ParentHomePage(); //ParentHomePage();
+                  return ParentHomePage(parentId: user.uid); //ParentHomePage();
                 case UserRole.student:
                   return const Scaffold(); //StudentHomePage();
               }
