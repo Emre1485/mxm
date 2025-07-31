@@ -6,6 +6,8 @@ import 'package:mobile_exam/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:mobile_exam/features/auth/presentation/cubits/auth_states.dart';
 import 'package:mobile_exam/features/auth/presentation/pages/auth_page.dart';
 import 'package:mobile_exam/features/home/parent/pages/parent_home_page.dart';
+import 'package:mobile_exam/features/home/student/pages/student_home_page.dart';
+import 'package:mobile_exam/features/home/teacher/pages/teacher_home_page.dart';
 import 'package:mobile_exam/themes/light_mode.dart';
 
 /*
@@ -59,11 +61,13 @@ class MobileExams extends StatelessWidget {
               // Role’a göre yönlendirme
               switch (user.role) {
                 case UserRole.teacher:
-                  return const Scaffold(); // TeacherHomePage();
+                  return TeacherHomePage(teacher: user); // TeacherHomePage();
                 case UserRole.parent:
                   return ParentHomePage(parentId: user.uid); //ParentHomePage();
                 case UserRole.student:
-                  return const Scaffold(); //StudentHomePage();
+                  return StudentHomePage(
+                    studentUid: user.uid,
+                  ); //StudentHomePage();
               }
             }
 

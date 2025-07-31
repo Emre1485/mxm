@@ -40,17 +40,14 @@ class _AddStudentFormState extends State<AddStudentForm> {
       final studentUid = userCredential.user!.uid;
 
       // 2. Firestore'da student kaydı oluştur, parentId ile ilişkilendir
-      await FirebaseFirestore.instance
-          .collection('students')
-          .doc(studentUid)
-          .set({
-            'uid': studentUid,
-            'name': nameController.text.trim(),
-            'email': emailController.text.trim(),
-            'parentId': widget.parentId,
-            'role': 'student',
-            'createdAt': FieldValue.serverTimestamp(),
-          });
+      await FirebaseFirestore.instance.collection('users').doc(studentUid).set({
+        'uid': studentUid,
+        'name': nameController.text.trim(),
+        'email': emailController.text.trim(),
+        'parentId': widget.parentId,
+        'role': 'student',
+        'createdAt': FieldValue.serverTimestamp(),
+      });
 
       // Başarılı mesaj veya başka işlem (örn: geri dön)
       ScaffoldMessenger.of(context).showSnackBar(

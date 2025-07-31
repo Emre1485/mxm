@@ -36,7 +36,7 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       final user = await authRepo.loginWithEmailPassword(email, pw);
       if (user != null) {
-        _currentUser = user; // SONRADAN EKLENDI
+        _currentUser = user;
         emit(Authenticated(user));
       } else {
         emit(Unauthenticated());

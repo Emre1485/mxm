@@ -10,7 +10,7 @@ class StudentList extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
-          .collection('students')
+          .collection('users')
           .where('parentId', isEqualTo: parentId)
           .orderBy('createdAt', descending: true)
           .limit(8)

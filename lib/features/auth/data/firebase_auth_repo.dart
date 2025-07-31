@@ -12,9 +12,7 @@ class FirebaseAuthRepo implements AuthRepo {
     final firebaseUser = firebaseAuth.currentUser;
     if (firebaseUser == null) return null;
 
-    // Firestore'dan user bilgisi al
     final doc = await firestore.collection('users').doc(firebaseUser.uid).get();
-
     if (!doc.exists) return null;
 
     return AppUser.fromJson(doc.data()!);
@@ -28,13 +26,17 @@ class FirebaseAuthRepo implements AuthRepo {
   @override
   Future<AppUser?> loginWithEmailPassword(String email, String password) async {
     try {
-      UserCredential userCredential = await firebaseAuth
-          .signInWithEmailAndPassword(email: email, password: password);
+      final userCredential = await firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
       final uid = userCredential.user!.uid;
-
       final doc = await firestore.collection('users').doc(uid).get();
-      if (!doc.exists) throw Exception("Kullanıcı verisi bulunamadı");
+
+      if (!doc.exists) {
+        throw Exception("Kullanıcı verisi bulunamadı");
+      }
 
       return AppUser.fromJson(doc.data()!);
     } catch (e) {
@@ -47,20 +49,32 @@ class FirebaseAuthRepo implements AuthRepo {
     String name,
     String email,
     String password,
-    UserRole role, // 👈 Yeni parametre
+    UserRole role,
   ) async {
     try {
-      UserCredential userCredential = await firebaseAuth
-          .createUserWithEmailAndPassword(email: email, password: password);
+      final userCredential = await firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
       final uid = userCredential.user!.uid;
 
-      final user = AppUser(uid: uid, email: email, name: name, role: role);
+      final user = AppUser(
+        uid: uid,
+        email: email,
+        name: name,
+        role: role,
+        createdAt: null, // Oluştururken null, Firestore kendisi ekleyecek
+      );
 
-      // Firestore'a yaz
-      await firestore.collection('users').doc(uid).set(user.toJson());
+      await firestore.collection('users').doc(uid).set({
+        ...user.toJson(),
+        'createdAt': FieldValue.serverTimestamp(), //sadece burada ekleniyor
+      });
 
-      return user;
+      // createdAt alanını okuma gerekebilirmiş, tekrar fetch:
+      final createdDoc = await firestore.collection('users').doc(uid).get();
+      return AppUser.fromJson(createdDoc.data()!);
     } catch (e) {
       throw Exception('Register failed: $e');
     }
