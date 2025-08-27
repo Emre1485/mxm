@@ -7,7 +7,7 @@
 
   - If user successfully logs in they will be redirected to home page.
 
-  - If user does not gave an account they can go to register page from here to create one.  
+  - If user does not have an account they can go to register page from here to create one.  
  
  ------------------------------------------------------------------------------------------------------------------
  */
@@ -43,7 +43,6 @@ class _LoginPageState extends State<LoginPage> {
 
     // ensure that the email & pw fields are not empty
     if (email.isNotEmpty && password.isNotEmpty) {
-      // LOGIN
       authCubit.login(email, password);
     }
     // Display Error IF Some Fields are EMPTY
@@ -67,12 +66,11 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          // Klavye açıldığında bile içerik kaydırılır
           padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 50), // Üstten boşluk
+              const SizedBox(height: 50),
               Icon(
                 Icons.lock_open_rounded,
                 size: 80,
@@ -122,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20), // Alt boşluk
+              const SizedBox(height: 20),
             ],
           ),
         ),

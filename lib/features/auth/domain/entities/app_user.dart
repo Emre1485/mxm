@@ -6,7 +6,7 @@ class AppUser {
   final String uid;
   final String email;
   final String name;
-  final UserRole role; // teacher, student, parent
+  final UserRole role;
   final DateTime? createdAt;
 
   AppUser({

@@ -5,6 +5,8 @@ import 'package:mobile_exam/features/auth/domain/entities/app_user.dart';
 import 'package:mobile_exam/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:mobile_exam/features/auth/presentation/cubits/auth_states.dart';
 import 'package:mobile_exam/features/auth/presentation/pages/auth_page.dart';
+import 'package:mobile_exam/features/course/data/course_firestore_repo.dart';
+import 'package:mobile_exam/features/course/presentation/cubits/course_cubit.dart';
 import 'package:mobile_exam/features/home/parent/pages/parent_home_page.dart';
 import 'package:mobile_exam/features/home/student/pages/student_home_page.dart';
 import 'package:mobile_exam/features/home/teacher/pages/teacher_home_page.dart';
@@ -18,8 +20,6 @@ import 'package:mobile_exam/themes/light_mode.dart';
 
   BLOC Providers: for the state mangement  
     - auth
-    - post
-    - search
     - theme
     - profile
   
@@ -29,16 +29,22 @@ import 'package:mobile_exam/themes/light_mode.dart';
  */
 
 class MobileExams extends StatelessWidget {
-  // auth repo
   final authRepo = FirebaseAuthRepo();
+  final courseRepo = CourseFirestoreRepo();
 
   MobileExams({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // provide cubit to app
-    return BlocProvider(
-      create: (context) => AuthCubit(authRepo: authRepo)..checkAuth(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthCubit>(
+          create: (context) => AuthCubit(authRepo: authRepo)..checkAuth(),
+        ),
+        BlocProvider<CourseCubit>(
+          create: (context) => CourseCubit(courseRepo: courseRepo),
+        ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: lightMode,
@@ -58,16 +64,13 @@ class MobileExams extends StatelessWidget {
             if (authState is Authenticated) {
               final AppUser user = authState.user;
 
-              // Role’a göre yönlendirme
               switch (user.role) {
                 case UserRole.teacher:
-                  return TeacherHomePage(teacher: user); // TeacherHomePage();
+                  return TeacherHomePage(teacher: user);
                 case UserRole.parent:
-                  return ParentHomePage(parentId: user.uid); //ParentHomePage();
+                  return ParentHomePage(parentId: user.uid);
                 case UserRole.student:
-                  return StudentHomePage(
-                    studentUid: user.uid,
-                  ); //StudentHomePage();
+                  return StudentHomePage(studentUid: user.uid);
               }
             }
 

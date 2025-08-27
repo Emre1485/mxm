@@ -64,15 +64,15 @@ class FirebaseAuthRepo implements AuthRepo {
         email: email,
         name: name,
         role: role,
-        createdAt: null, // Oluştururken null, Firestore kendisi ekleyecek
+        createdAt: null, // Firestore kendisi ekleyecek
       );
 
       await firestore.collection('users').doc(uid).set({
         ...user.toJson(),
-        'createdAt': FieldValue.serverTimestamp(), //sadece burada ekleniyor
+        'createdAt': FieldValue.serverTimestamp(),
       });
 
-      // createdAt alanını okuma gerekebilirmiş, tekrar fetch:
+      // createdAt alanını okuma gerekebilirmiş, tekrar fetch????
       final createdDoc = await firestore.collection('users').doc(uid).get();
       return AppUser.fromJson(createdDoc.data()!);
     } catch (e) {

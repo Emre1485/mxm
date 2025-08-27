@@ -45,7 +45,7 @@ class _RegisterPageState extends State<RegisterPage> {
       return;
     }
 
-    // Veli olarak kayıt işlemi
+    // Parent olarak kayıt işlemi
     context.read<AuthCubit>().register(email, name, password, UserRole.parent);
   }
 
@@ -58,7 +58,7 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 50), // Üst boşluk
+              const SizedBox(height: 50),
               Icon(
                 Icons.lock_rounded,
                 size: 80,
@@ -130,7 +130,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20), // Alt boşluk
+              const SizedBox(height: 20),
             ],
           ),
         ),

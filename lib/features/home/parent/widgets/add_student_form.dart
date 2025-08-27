@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddStudentForm extends StatefulWidget {
-  final String parentId; // Velinin uid'si
+  final String parentId;
 
   const AddStudentForm({super.key, required this.parentId});
 
@@ -49,13 +49,12 @@ class _AddStudentFormState extends State<AddStudentForm> {
         'createdAt': FieldValue.serverTimestamp(),
       });
 
-      // Başarılı mesaj veya başka işlem (örn: geri dön)
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Öğrenci başarıyla eklendi!')),
       );
       Navigator.of(context).pop();
 
-      // Formu temizle veya ekranı kapat
+      // Formu temizle
       nameController.clear();
       emailController.clear();
       passwordController.clear();
@@ -96,7 +95,7 @@ class _AddStudentFormState extends State<AddStudentForm> {
         child: Form(
           key: _formKey,
           child: Column(
-            mainAxisSize: MainAxisSize.min, // Yükseklik sarmalasın
+            mainAxisSize: MainAxisSize.min,
             children: [
               if (errorMessage != null)
                 Padding(

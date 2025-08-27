@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_exam/features/home/parent/pages/parent_student_dashboard_page.dart';
 
 class StudentList extends StatelessWidget {
   final String parentId;
@@ -47,46 +48,62 @@ class StudentList extends StatelessWidget {
               final name = student['name'] ?? 'İsimsiz';
               final email = student['email'] ?? '';
 
-              return Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.lightBlue.shade50,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 4,
-                      offset: Offset(2, 2),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.person,
-                      size: 40,
-                      color: Colors.blueAccent,
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      name,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+              return InkWell(
+                borderRadius: BorderRadius.circular(12),
+                onTap: () {
+                  final studentUid = students[index].id; // users doc id = uid
+                  final name = (student['name'] ?? 'Öğrenci').toString();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => ParentStudentDashboardPage(
+                        studentId: studentUid,
+                        studentName: name,
                       ),
-                      textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      email,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: Colors.black54,
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.lightBlue.shade50,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 4,
+                        offset: Offset(2, 2),
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.person,
+                        size: 40,
+                        color: Colors.blueAccent,
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        name,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        email,
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: Colors.black54,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
                 ),
               );
             },

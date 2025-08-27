@@ -1,8 +1,6 @@
 /*
 CUBIT: Simplified version of Bloc for state Management.
-
 AUTH CUBIT: State Management
-
 */
 
 import 'package:flutter_bloc/flutter_bloc.dart';

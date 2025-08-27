@@ -20,21 +20,5 @@ class Authenticated extends AuthState {
   Authenticated(this.user);
 }
 
-// Rol bazlı durumlar
-class AuthTeacher extends AuthState {
-  final AppUser user;
-  AuthTeacher(this.user);
-}
-
-class AuthParent extends AuthState {
-  final AppUser user;
-  AuthParent(this.user);
-}
-
-class AuthStudent extends AuthState {
-  final AppUser user;
-  AuthStudent(this.user);
-}
-
 // Oturum kapalı
 class Unauthenticated extends AuthState {}
